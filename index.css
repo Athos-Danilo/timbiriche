@@ -93,3 +93,58 @@ h1 {
     border-right: 5px solid #d20202;
     color: #d20202;
 }
+
+/* ===> Tabuleiro <=== */
+#tabuleiro {
+  display: grid;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  padding: 12px;
+  width: max-content;
+}
+
+/* os pontos da grade */
+.ponto {
+  background-color: #333333;
+  border-radius: 50%;
+}
+
+/* linhas ainda nao desenhadas */
+.linha {
+  background-color: #e6e6e6;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.linha:hover {
+  background-color: #999999;
+}
+
+/* linhas ja desenhadas */
+.linha-jogador {
+  background-color: #0055aa;
+  border-radius: 2px;
+  cursor: default;
+}
+
+.linha-robo {
+  background-color: #d20202;
+  border-radius: 2px;
+  cursor: default;
+}
+
+/* quadrados */
+.quadrado {
+  font-size: 11px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.quadrado-jogador {
+  background-color: #7fbfff;
+}
+
+.quadrado-robo {
+  background-color: #fa7777;
+}
