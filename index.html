@@ -7,6 +7,29 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
+    <h1>Timbiriche</h1>
+    <p id="explicacao">Ligue os pontos vizinhos. Quem fechar o quadrado marca um ponto e joga novamente.</p>
     
+    <div id="controles">
+        <div class="campo">
+            <label for="modo">Modo de Jogo</label>
+            <select id="modo">
+                <option value="robo">1 Pessoa vs Robô</option>
+                <option value="dois">2 Pessoas</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="tamanho">Tamanho do Tabuleiro</label>
+            <select id="tamanho">
+                <option value="4">4 x 4</option>
+                <option value="8">8 x 8</option>
+                <option value="16">32 x 32</option>
+                <option value="32">32 x 32</option>
+            </select>
+        </div>
+
+        <button id="botaoNovoJogo">Novo Jogo</button>
+    </div>
 </body>
 </html>
