@@ -9,6 +9,8 @@
 <body>
     <h1>Timbiriche</h1>
     <p id="explicacao">Ligue os pontos vizinhos. Quem fechar o quadrado marca um ponto e joga novamente.</p>
+
+    <p id="mensagem">Escolha o modo e o tamanho, depois clique em "Novo Jogo".</p>
     
     <div id="controles">
         <div class="campo">
@@ -31,5 +33,19 @@
 
         <button id="botaoNovoJogo">Novo Jogo</button>
     </div>
+
+    <div id="placar">
+        <div class="caixa-placar" id="caixaUm">
+            <span id="placarJogador">Jogador 1: 0</span>
+        </div>
+
+        <div class="caixa-placar" id="caixaDois">
+            <span id="placarRobo">Jogador 2: 0</span>
+        </div>
+    </div>
+
+    <div id="tabuleiro"></div>
+
+    <script src="index.js"></script>
 </body>
 </html>
