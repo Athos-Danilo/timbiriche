@@ -96,7 +96,7 @@ h1 {
 
 /* ===> Tabuleiro <=== */
 #tabuleiro {
-  display: grid;
+  display: none;
   background-color: #ffffff;
   border: 1px solid #cccccc;
   border-radius: 6px;
@@ -137,7 +137,9 @@ h1 {
 /* quadrados */
 .quadrado {
   font-size: 11px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #ffffff;
 }
 
