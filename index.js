@@ -1,3 +1,4 @@
+// ===========> 01: Preparação <===========
 let modo = "robo";
 let tamanho = 4;
 let lado = 0;
@@ -7,6 +8,8 @@ let pontosUm = 0;
 let pontosDois = 0;
 let jogadorAtual = "um";
 let jogoAtivo = false;
+let quadradosFeitos = 0;
+let totalQuadrados = 0;
 
 const divTabuleiro = document.getElementById("tabuleiro");
 const campoModo = document.getElementById("modo");
@@ -16,61 +19,28 @@ const textoMensagem = document.getElementById("mensagem");
 const textoPlacarUm = document.getElementById("placarJogador");
 const textoPlacarDois = document.getElementById("placarRobo");
 
-botaoNovoJogo.onclick = iniciarJogo; 
+botaoNovoJogo.onclick = iniciarJogo;
 
+// ===========> 02: Início do jogo <===========
 function iniciarJogo() {
-    modo = campoModo.value; 
-    tamanho = parseInt(campoTamanho.value);
-    lado = tamanho * 2 - 1;
-    pontosUm = 0
-    pontosDois = 0
-    quadradosFeitos = 0;
-    totalQuadrados = (tamanho - 1) * (tamanho - 1);
-    jogadorAtual = "um";
-    jogoAtivo = true;
-    
-    botaoNovoJogo.textContent = "Reiniciar";
+  modo = campoModo.value;
+  tamanho = parseInt(campoTamanho.value);
+  lado = tamanho * 2 - 1;
+  pontosUm = 0
+  pontosDois = 0
+  quadradosFeitos = 0;
+  totalQuadrados = (tamanho - 1) * (tamanho - 1);
+  jogadorAtual = "um";
+  jogoAtivo = true;
 
-    criarTabuleiro();
-    atualizarPlacar();
-    avisarVez();
+  botaoNovoJogo.textContent = "Reiniciar";
+
+  criarTabuleiro();
+  atualizarPlacar();
+  avisarVez();
 }
 
-// nome que aparece nas mensagens e no placar
-function nomeDoJogador(quem) {
-  if (quem == "um") {
-    if (modo == "robo") { return "Você"; }
-    return "Jogador 1";
-  } else {
-    if (modo == "robo") { return "Robô"; }
-    return "Jogador 2";
-  }
-}
-
-// letra que fica dentro do quadrado conquistado
-function letraDoJogador(quem) {
-  if (quem == "um") {
-    if (modo == "robo") { return "V"; }
-    return "1";
-  } else {
-    if (modo == "robo") { return "R"; }
-    return "2";
-  }
-}
-
-function avisarVez() {
-  if (modo == "robo" && jogadorAtual == "dois") {
-    textoMensagem.textContent = "Vez do robô...";
-  } else if (modo == "robo" && jogadorAtual == "um") {
-    textoMensagem.textContent = "Sua vez. Clique em uma linha.";
-  } else {
-    textoMensagem.textContent = "Vez de " + nomeDoJogador(jogadorAtual) + ". Clique em uma linha.";
-  }
-}
-
-// ---------------------------------------------
-// Monta a grade de pontos, linhas e quadrados
-// ---------------------------------------------
+// ===========> 03: Montagem do tabuleiro <==========
 function criarTabuleiro() {
   divTabuleiro.style.display = "grid";
   divTabuleiro.innerHTML = "";
@@ -138,9 +108,8 @@ function criarClique(linha, coluna) {
   };
 }
 
-// ---------------------------------------------
-// Jogada feita com o mouse (serve para os dois modos)
-// ---------------------------------------------
+
+// ===========> 04: Jogada do jogador <==========
 function clicarNaLinha(linha, coluna) {
   if (jogoAtivo == false) { return; }
   if (grade[linha][coluna] != "livre") { return; }
@@ -161,59 +130,7 @@ function clicarNaLinha(linha, coluna) {
   }
 }
 
-// troca de jogador e, se for o caso, chama o robo
-function passarAVez() {
-  if (jogadorAtual == "um") {
-    jogadorAtual = "dois";
-  } else {
-    jogadorAtual = "um";
-  }
-
-  avisarVez();
-
-  if (modo == "robo" && jogadorAtual == "dois") {
-    setTimeout(jogadaDoRobo, 500);
-  }
-}
-
-// ---------------------------------------------
-// Jogada do robo (escolha aleatoria, sem estrategia)
-// ---------------------------------------------
-function jogadaDoRobo() {
-  if (jogoAtivo == false) { return; }
-  if (modo != "robo") { return; }
-
-  // 1) procura todas as linhas que ainda estao livres
-  const disponiveis = [];
-  for (let linha = 0; linha < lado; linha++) {
-    for (let coluna = 0; coluna < lado; coluna++) {
-      if (grade[linha][coluna] == "livre") {
-        disponiveis.push([linha, coluna]);
-      }
-    }
-  }
-
-  if (disponiveis.length == 0) { return; }
-
-  // 2) sorteia uma posicao e marca
-  const sorteio = Math.floor(Math.random() * disponiveis.length);
-  const escolhida = disponiveis[sorteio];
-  const feitos = desenharLinha(escolhida[0], escolhida[1], "dois");
-
-  if (verificarFimDeJogo() == true) { return; }
-
-  // 3) se fechou um quadrado, joga outra vez
-  if (feitos > 0) {
-    textoMensagem.textContent = "O robô fechou um quadrado e joga de novo.";
-    setTimeout(jogadaDoRobo, 500);
-  } else {
-    passarAVez();
-  }
-}
-
-// ---------------------------------------------
 // Desenha a linha e confere os quadrados vizinhos
-// ---------------------------------------------
 function desenharLinha(linha, coluna, quem) {
   grade[linha][coluna] = quem;
 
@@ -265,9 +182,7 @@ function fecharQuadrado(linha, coluna, quem) {
   return true;
 }
 
-// ---------------------------------------------
 // Placar e fim de jogo
-// ---------------------------------------------
 function atualizarPlacar() {
   textoPlacarUm.textContent = nomeDoJogador("um") + ": " + pontosUm;
   textoPlacarDois.textContent = nomeDoJogador("dois") + ": " + pontosDois;
@@ -287,4 +202,90 @@ function verificarFimDeJogo() {
   }
 
   return true;
+}
+
+
+// ===========> 05: Controle de turno <===========
+// troca de jogador e, se for o caso, chama o robo
+function passarAVez() {
+  if (jogadorAtual == "um") {
+    jogadorAtual = "dois";
+  } else {
+    jogadorAtual = "um";
+  }
+
+  avisarVez();
+
+  if (modo == "robo" && jogadorAtual == "dois") {
+    setTimeout(jogadaDoRobo, 500);
+  }
+}
+
+function avisarVez() {
+  if (modo == "robo" && jogadorAtual == "dois") {
+    textoMensagem.textContent = "Vez do robô...";
+  } else if (modo == "robo" && jogadorAtual == "um") {
+    textoMensagem.textContent = "Sua vez. Clique em uma linha.";
+  } else {
+    textoMensagem.textContent = "Vez de " + nomeDoJogador(jogadorAtual) + ". Clique em uma linha.";
+  }
+}
+
+
+// ===========> 06: Jogada do Robô <===========
+// Jogada do robo (escolha aleatoria, sem estrategia)
+function jogadaDoRobo() {
+  if (jogoAtivo == false) { return; }
+  if (modo != "robo") { return; }
+
+  // 1) procura todas as linhas que ainda estao livres
+  const disponiveis = [];
+  for (let linha = 0; linha < lado; linha++) {
+    for (let coluna = 0; coluna < lado; coluna++) {
+      if (grade[linha][coluna] == "livre") {
+        disponiveis.push([linha, coluna]);
+      }
+    }
+  }
+
+  if (disponiveis.length == 0) { return; }
+
+  // 2) sorteia uma posicao e marca
+  const sorteio = Math.floor(Math.random() * disponiveis.length);
+  const escolhida = disponiveis[sorteio];
+  const feitos = desenharLinha(escolhida[0], escolhida[1], "dois");
+
+  if (verificarFimDeJogo() == true) { return; }
+
+  // 3) se fechou um quadrado, joga outra vez
+  if (feitos > 0) {
+    textoMensagem.textContent = "O robô fechou um quadrado e joga de novo.";
+    setTimeout(jogadaDoRobo, 500);
+  } else {
+    passarAVez();
+  }
+}
+
+
+// ===========> 07: Funções auxiliares <===========
+// nome que aparece nas mensagens e no placar
+function nomeDoJogador(quem) {
+  if (quem == "um") {
+    if (modo == "robo") { return "Você"; }
+    return "Jogador 1";
+  } else {
+    if (modo == "robo") { return "Robô"; }
+    return "Jogador 2";
+  }
+}
+
+// letra que fica dentro do quadrado conquistado
+function letraDoJogador(quem) {
+  if (quem == "um") {
+    if (modo == "robo") { return "V"; }
+    return "1";
+  } else {
+    if (modo == "robo") { return "R"; }
+    return "2";
+  }
 }
