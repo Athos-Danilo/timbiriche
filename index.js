@@ -28,6 +28,8 @@ function iniciarJogo() {
     totalQuadrados = (tamanho - 1) * (tamanho - 1);
     jogadorAtual = "um";
     jogoAtivo = true;
+    
+    botaoNovoJogo.textContent = "Reiniciar";
 
     criarTabuleiro();
     atualizarPlacar();

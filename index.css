@@ -3,6 +3,10 @@ body {
     background-color: rgb(222, 222, 206);
     color: #000000;
     margin: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 h1 {
